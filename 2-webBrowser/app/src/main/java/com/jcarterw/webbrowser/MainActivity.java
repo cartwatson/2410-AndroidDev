@@ -28,44 +28,63 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         History history = new History();
-        int historyIndex = 0;
         // create layout
         LinearLayout layout = new LinearLayout(this);
-        // buttons: back, forward, go
-        // TODO: add onclick listeners
-        // -- back
+        // BACK BUTTON -----------------------------------------------------------------------------
         AppCompatButton back = new AppCompatButton(this);
         back.setText("<");
         final LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
         back.setLayoutParams(params0);
-        // ----
-        // -- forward
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                history.prevCurr(); // adjust history
+                // TODO: take you to new site
+            }
+        });
+
+        // FORWARD BUTTON --------------------------------------------------------------------------
         AppCompatButton forward = new AppCompatButton(this);
         forward.setText(">");
         final LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
         forward.setLayoutParams(params1);
-        // editText address bar
-        // -- TODO: fix size
-
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                history.nextCurr(); // adjust history
+                // TODO: take you to new site
+            }
+        });
+        // ADDRESS BAR -----------------------------------------------------------------------------
+        // TODO: fix size
         final AppCompatEditText addressBar = new AppCompatEditText(this);
         final LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         addressBar.setLayoutParams(params3);
-        // -- go
+        // GO BUTTON -------------------------------------------------------------------------------
         AppCompatButton go = new AppCompatButton(this);
         go.setText("G");
         final LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
         go.setLayoutParams(params2);
-        // ---- TODO: set text when on new page
-        // ---- TODO: when pressed add to history and move to next page
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: set text in address bar when on new page
+                // when pressed add to history
+//                history.appendNode(**ADDRESS**);
+                // TODO: move to next page
+            }
+        });
 
         // display content of webpage
-
+        // TODO: this entire section
 
         // add everything to the view
         layout.addView(back);
         layout.addView(forward);
         layout.addView(addressBar);
         layout.addView(go);
+//        layout.addView(); // webpage
+
         setContentView(layout);
     }
 

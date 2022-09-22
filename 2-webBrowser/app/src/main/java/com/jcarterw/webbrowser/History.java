@@ -13,23 +13,35 @@ public class History {
             this.prev = prev;
             this.next = next;
         }
-
-        public void setNext(node next) { this.next = next; }
-        public void setPrev(node prev) { this.prev = prev; }
     }
 
     node head;
+    node curr;
     node tail;
 
     History() {
         node home = new node("home", null, null);
         head = home;
         tail = home;
+        curr = home;
     }
 
-    public void addNode (String d) {
+    public void appendNode (String d) {
         node temp = new node(d);
-
-
+        tail.next = temp;
+        temp.prev = tail;
+        temp.next = null;
+        tail = temp;
+        curr = tail;
     }
+
+    // add node at specific point and remove all nodes after - using garbage collector
+    public void addNode (String data) {
+        tail.prev = null;
+        tail = curr;
+        appendNode(data);
+    }
+
+    public void prevCurr () { curr = curr.prev; }
+    public void nextCurr () { curr = curr.next; }
 }
