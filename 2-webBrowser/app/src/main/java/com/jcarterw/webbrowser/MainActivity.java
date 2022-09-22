@@ -1,22 +1,23 @@
 package com.jcarterw.webbrowser;
 
 import android.os.Bundle;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.jcarterw.webbrowser.databinding.ActivityMainBinding;
+import com.jcarterw.webbrowser.History;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,51 +27,46 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        History history = new History();
+        int historyIndex = 0;
+        // create layout
+        LinearLayout layout = new LinearLayout(this);
+        // buttons: back, forward, go
+        // TODO: add onclick listeners
+        // -- back
+        AppCompatButton back = new AppCompatButton(this);
+        back.setText("<");
+        final LinearLayout.LayoutParams params0 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
+        back.setLayoutParams(params0);
+        // ----
+        // -- forward
+        AppCompatButton forward = new AppCompatButton(this);
+        forward.setText(">");
+        final LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
+        forward.setLayoutParams(params1);
+        // editText address bar
+        // -- TODO: fix size
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        final AppCompatEditText addressBar = new AppCompatEditText(this);
+        final LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        addressBar.setLayoutParams(params3);
+        // -- go
+        AppCompatButton go = new AppCompatButton(this);
+        go.setText("G");
+        final LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT);
+        go.setLayoutParams(params2);
+        // ---- TODO: set text when on new page
+        // ---- TODO: when pressed add to history and move to next page
 
-        setSupportActionBar(binding.toolbar);
+        // display content of webpage
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        // add everything to the view
+        layout.addView(back);
+        layout.addView(forward);
+        layout.addView(addressBar);
+        layout.addView(go);
+        setContentView(layout);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }
