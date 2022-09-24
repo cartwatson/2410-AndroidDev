@@ -13,6 +13,7 @@ public class History {
             this.prev = prev;
             this.next = next;
         }
+
     }
 
     node head;
@@ -20,16 +21,17 @@ public class History {
     node tail;
 
     History() {
-        node home = new node("home", null, null);
+        node home = new node("", null, null);
         head = home;
         tail = home;
         curr = home;
     }
 
-    // merge with addNode
     public void appendNode (String d) {
-        // if garbage collector doesn't work
-        // TODO: Delete all nodes after curr, if necessary
+        if (curr.next != null) {
+            // other nodes in list TODO: delete those stupid bitch ass nodes
+            
+        }
         node temp = new node(d);
         tail.next = temp;
         temp.prev = tail;
@@ -38,19 +40,8 @@ public class History {
         curr = tail;
     }
 
-    // add node at specific point and remove all nodes after - using garbage collector
-    public void addNode (String data) {
-        tail.prev = null;
-        tail = curr;
-        appendNode(data);
-    }
+    public void prevCurr () { if (curr.prev != null) { curr = curr.prev; } }
+    public void nextCurr () { if (curr.next != null) { curr = curr.next; } }
 
-    public void prevCurr () {
-        // TODO: check for being at beginning of list
-        curr = curr.prev;
-    }
-    public void nextCurr () {
-        // TODO: check for begin at end of list
-        curr = curr.next;
-    }
+    public String getData () { return curr.data; }
 }

@@ -1,8 +1,6 @@
 package com.jcarterw.a2_webbrowser;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import android.webkit.WebView;
@@ -30,24 +28,30 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.HORIZONTAL
         );
-        topLayout.setBackgroundColor(Color.RED);
         topLayout.setLayoutParams(topParams);
 
         final LinearLayout.LayoutParams webParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.HORIZONTAL
+                LinearLayout.VERTICAL
         );
-        webLayout.setBackgroundColor(Color.BLACK);
         webLayout.setLayoutParams(webParams);
 
         final LinearLayout.LayoutParams mainParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.VERTICAL
+                LinearLayout.LayoutParams.MATCH_PARENT
                 );
-        mainLayout.setBackgroundColor(Color.BLUE);
+        mainLayout.setOrientation(LinearLayout.VERTICAL);
         mainLayout.setLayoutParams(mainParams);
+
+        // ADDRESS BAR -----------------------------------------------------------------------------
+        final AppCompatEditText addressBar = new AppCompatEditText(this);
+        final LinearLayout.LayoutParams params3 =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1);
+        addressBar.setLayoutParams(params3);
 
         // BACK BUTTON -----------------------------------------------------------------------------
         AppCompatButton back = new AppCompatButton(this);
@@ -58,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                history.prevCurr(); // adjust history
-                // TODO: take you to new site
+                history.prevCurr();
+                addressBar.setText(history.getData());
+                webView.loadUrl(history.getData());
             }
         });
 
@@ -73,18 +78,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 history.nextCurr();
-                // TODO: take you to new site
+                addressBar.setText(history.getData());
+                webView.loadUrl(history.getData());
             }
         });
-
-        // ADDRESS BAR -----------------------------------------------------------------------------
-        final AppCompatEditText addressBar = new AppCompatEditText(this);
-        final LinearLayout.LayoutParams params3 =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1);
-        addressBar.setLayoutParams(params3);
 
         // GO BUTTON -------------------------------------------------------------------------------
         AppCompatButton go = new AppCompatButton(this);
@@ -97,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO: set text in address bar when on new page
                 history.appendNode(addressBar.getText().toString());
+                addressBar.setText(addressBar.getText().toString());
                 webView.loadUrl(addressBar.getText().toString());
                 webView.setWebViewClient(new WebViewClient());
             }
