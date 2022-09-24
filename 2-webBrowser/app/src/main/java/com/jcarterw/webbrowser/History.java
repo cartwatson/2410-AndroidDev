@@ -26,10 +26,7 @@ public class History {
         curr = home;
     }
 
-    // merge with addNode
     public void appendNode (String d) {
-        // if garbage collector doesn't work
-        // TODO: Delete all nodes after curr, if necessary
         node temp = new node(d);
         tail.next = temp;
         temp.prev = tail;
@@ -45,12 +42,6 @@ public class History {
         appendNode(data);
     }
 
-    public void prevCurr () {
-        // TODO: check for being at beginning of list
-        curr = curr.prev;
-    }
-    public void nextCurr () {
-        // TODO: check for begin at end of list
-        curr = curr.next;
-    }
+    public void prevCurr () { curr = curr.prev; }
+    public void nextCurr () { curr = curr.next; }
 }
