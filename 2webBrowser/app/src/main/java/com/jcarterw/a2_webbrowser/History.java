@@ -28,10 +28,16 @@ public class History {
     }
 
     public void appendNode (String d) {
+        // delete successive nodes
         if (curr.next != null) {
-            // other nodes in list TODO: delete those stupid bitch ass nodes
-            
+            while (tail != curr) {
+                node temp = tail.prev;
+                tail.next = null;
+                tail.prev = null;
+                tail = temp;
+            }
         }
+        // add new node
         node temp = new node(d);
         tail.next = temp;
         temp.prev = tail;

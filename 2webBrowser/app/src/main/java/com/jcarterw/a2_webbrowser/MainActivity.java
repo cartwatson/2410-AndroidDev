@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: set text in address bar when on new page
                 history.appendNode(addressBar.getText().toString());
                 addressBar.setText(addressBar.getText().toString());
                 webView.loadUrl(addressBar.getText().toString());
