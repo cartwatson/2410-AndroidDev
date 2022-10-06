@@ -218,12 +218,33 @@ class BossMonster(game: Game?) : GameObject(game!!) {
         canvas.translate(myX, myY)
         val alive: Boolean = state["alive"]
         canvas.translate(myX, myY)
+        val size = cellSize.toFloat()
+
         if (alive) {
-            paint.color = Color.MAGENTA
+            // body
+            paint.color = Color.rgb(80,80,80)
+            canvas.drawCircle(size/2, size/2, 60f, paint)
+            paint.color = Color.rgb(0,0, 255)
+            canvas.drawCircle(size/2, size/2, 58f, paint)
+            paint.color = Color.rgb(0, 0, 126)
+            canvas.drawOval(30f, size-80f, size-30f, size-25f, paint)
+            // eyes
+            paint.color = Color.rgb(0,0,0)
+            canvas.drawOval(size/2-30f, 40f, size/2-10f, size/2+10f, paint)
+            canvas.drawOval(size/2+30f, 40f, size/2+10f, size/2+10f, paint)
         } else {
-            paint.color = Color.CYAN
+            // body
+            paint.color = Color.rgb(80,80,80)
+            canvas.drawCircle(size/2, size/2, 60f, paint)
+            paint.color = Color.rgb(0,0,0)
+            canvas.drawCircle(size/2, size/2, 58f, paint)
+            paint.color = Color.rgb(0, 0, 0)
+            canvas.drawOval(30f, size-80f, size-30f, size-25f, paint)
+            // eyes
+            paint.color = Color.rgb(0,0,255)
+            canvas.drawOval(size/2-30f, 40f, size/2-10f, size/2+10f, paint)
+            canvas.drawOval(size/2+30f, 40f, size/2+10f, size/2+10f, paint)
         }
-        canvas.drawRect(0f, 0f, cellSize.toFloat(), cellSize.toFloat(), paint)
     }
 
     init {

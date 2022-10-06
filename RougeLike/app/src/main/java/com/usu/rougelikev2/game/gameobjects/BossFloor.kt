@@ -19,11 +19,30 @@ class BossFloor(game: Game?) : GameObject(game!!) {
         val cellSize: Int = game.gameState["cellSize"]
         val myX = coords.x * cellSize
         val myY = coords.y * cellSize
-
         canvas.translate(myX, myY)
+        val size = cellSize.toFloat()
+
+        // base color
+        paint.color = Color.rgb(143, 0,0)
+        canvas.drawRect(0f,0f, size, size, paint)
+
+        // rotated squares
+        canvas.save()
+        canvas.rotate(45f, size/2, size/2)
+        paint.color = Color.rgb(209, 0,0)
+        canvas.drawRect(23f, 23f, size-23f, size-23f, paint)
+            // internal square
+            canvas.save()
+            canvas.rotate(45f, size/2, size/2)
+            paint.color = Color.rgb(240, 0,0)
+            canvas.drawRect(40f, 40f, size-40f, size-40f, paint)
+            canvas.restore()
+        canvas.restore()
+
+        // outline
         paint.style = Paint.Style.STROKE
-        paint.color = Color.RED
+        paint.color = Color.rgb(50, 50, 50)
         paint.strokeWidth = 2f
-        canvas.drawRect(0f, 0f, cellSize.toFloat(), cellSize.toFloat(), paint)
+        canvas.drawRect(0f, 0f, size, size, paint)
     }
 }

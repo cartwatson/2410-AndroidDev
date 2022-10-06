@@ -75,13 +75,25 @@ class Player(game: Game?) : GameObject(game!!) {
         val cellSize: Int = game.gameState["cellSize"]
         val myX = coords.x * cellSize
         val myY = coords.y * cellSize
-
-        // TODO: Draw something interesting that represents the player
-
-        // TODO: Draw something interesting that represents the player
         canvas.translate(myX, myY)
-        paint.color = Color.GREEN
-        canvas.drawRect(0f, 0f, cellSize.toFloat(), cellSize.toFloat(), paint)
+        val size = cellSize.toFloat()
+
+        // body
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawCircle(size/2, size/2, 60f, paint)
+        paint.color = Color.rgb(255, 186, 239)
+        canvas.drawCircle(size/2, size/2, 58f, paint)
+        // eyes
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawOval(size/2-30f, 40f, size/2-10f, size/2+10f, paint)
+        canvas.drawOval(size/2+30f, 40f, size/2+10f, size/2+10f, paint)
+        // feet
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawOval(10f, size-40f, size/2-10f, size-5f, paint)
+        canvas.drawOval(size/2+10f, size-40f, size-10f, size-5f, paint)
+        paint.color = Color.rgb(240, 12, 187)
+        canvas.drawOval(10f+2f, size-40f+2f, size/2-10f-2f, size-5f-2f, paint)
+        canvas.drawOval(size/2+10f+2f, size-40f+2f, size-10f-2f, size-5f-2f, paint)
     }
 
     init {

@@ -200,14 +200,34 @@ class Monster(game: Game?) : GameObject(game!!) {
         val myX = coords.x.toInt() * cellSize
         val myY = coords.y.toInt() * cellSize
         val isAlive: Boolean = state["alive"]
-
         canvas.translate(myX.toFloat(), myY.toFloat())
+        val size = cellSize.toFloat()
+
         if (isAlive) {
-            paint.color = Color.RED
+            // body
+            paint.color = Color.rgb(80,80,80)
+            canvas.drawCircle(size/2, size/2, 60f, paint)
+            paint.color = Color.GREEN
+            canvas.drawCircle(size/2, size/2, 58f, paint)
+            paint.color = Color.rgb(0, 176, 38)
+            canvas.drawOval(30f, size-80f, size-30f, size-25f, paint)
+            // eyes
+            paint.color = Color.rgb(255,0,0)
+            canvas.drawOval(size/2-30f, 40f, size/2-10f, size/2+10f, paint)
+            canvas.drawOval(size/2+30f, 40f, size/2+10f, size/2+10f, paint)
         } else {
-            paint.color = Color.CYAN
+            // body
+            paint.color = Color.rgb(80,80,80)
+            canvas.drawCircle(size/2, size/2, 60f, paint)
+            paint.color = Color.rgb(255,0,0)
+            canvas.drawCircle(size/2, size/2, 58f, paint)
+            paint.color = Color.rgb(125, 0, 0)
+            canvas.drawOval(30f, size-80f, size-30f, size-25f, paint)
+            // eyes
+            paint.color = Color.rgb(0,0,0)
+            canvas.drawOval(size/2-30f, 40f, size/2-10f, size/2+10f, paint)
+            canvas.drawOval(size/2+30f, 40f, size/2+10f, size/2+10f, paint)
         }
-        canvas.drawRect(0f, 0f, cellSize.toFloat(), cellSize.toFloat(), paint)
     }
 
     init {

@@ -19,7 +19,22 @@ class Barrier(game: Game) : GameObject(game) {
         val myX = coords.x * cellSize
         val myY = coords.y * cellSize
         canvas.translate(myX, myY)
-        paint.color = Color.GRAY
-        canvas.drawRect(0f, 0f, cellSize.toFloat(), cellSize.toFloat(), paint)
+        val size = cellSize.toFloat()
+
+        // bricks
+        paint.color = Color.rgb(212, 181, 142)
+        canvas.drawRect(0f, 0f, size/2, size/2, paint)
+        canvas.drawRect(size/2, size/2, size, size, paint)
+
+        paint.color = Color.rgb(163, 139, 109)
+        canvas.drawRect(0f, size/2, size/2, size, paint)
+        canvas.drawRect(size/2, 0f, size, size/2, paint)
+        // grout
+        paint.style = Paint.Style.STROKE
+        paint.color = Color.rgb(105, 99, 93)
+        paint.strokeWidth = 3f
+        canvas.drawRect(0f, 0f, size, size, paint)
+        canvas.drawRect(0f, 0f, size/2, size/2, paint)
+        canvas.drawRect(size/2, size/2, size, size, paint)
     }
 }

@@ -1,6 +1,7 @@
 package com.usu.rougelikev2.game.gameobjects
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import com.usu.rougelikev2.game.gameengine.Game
 import com.usu.rougelikev2.game.gameengine.GameObject
@@ -21,16 +22,25 @@ class Key(game: Game?) : GameObject(game!!) {
         val cellSize: Int = game.gameState["cellSize"]
         val myX = coords.x * cellSize
         val myY = coords.y * cellSize
-
         canvas.translate(myX, myY)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 4f
-        canvas.drawCircle(
-            (cellSize / 2).toFloat(),
-            (cellSize / 2).toFloat(),
-            (cellSize / 2).toFloat(),
-            paint
-        )
+        val size = cellSize.toFloat()
+
+        // top circle
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawOval(20f, 20f, size-20f, size/2, paint)
+        canvas.drawRect(size/2-15f, size/2-20f, size/2+15f, size-20f, paint)
+        paint.color = Color.rgb(255,215,0)
+        canvas.drawOval(20f+2f, 20f+2f, size-20f-2f, size/2-2f, paint)
+        canvas.drawRect(size/2-15f+2f, size/2-20f+2f, size/2+15f-2f, size-20f-2f, paint)
+        // key hole at the top
+
+        // key/pins
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawRect(size/2, size/2+5f, size/2+30f, size/2+20f, paint)
+        canvas.drawRect(size/2, size/2+30f, size/2+30f, size/2+45f, paint)
+        paint.color = Color.rgb(255,215,0)
+        canvas.drawRect(size/2, size/2+5f+2f, size/2+30f-2f, size/2+20f-2f, paint)
+        canvas.drawRect(size/2, size/2+30f+2f, size/2+30f-2f, size/2+45f-2f, paint)
     }
 
     init {
