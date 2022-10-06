@@ -215,7 +215,6 @@ class BossMonster(game: Game?) : GameObject(game!!) {
         val cellSize: Int = game.gameState["cellSize"]
         val myX = coords.x * cellSize
         val myY = coords.y * cellSize
-        canvas.translate(myX, myY)
         val alive: Boolean = state["alive"]
         canvas.translate(myX, myY)
         val size = cellSize.toFloat()
