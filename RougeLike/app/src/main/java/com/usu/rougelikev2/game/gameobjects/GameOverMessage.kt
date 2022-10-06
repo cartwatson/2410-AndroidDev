@@ -16,8 +16,14 @@ class GameOverMessage(game: Game?) : GameObject(game!!) {
         // game.width; // get the width of the game
         val isPlaying: Boolean = game.gameState["playing"]
         if (isPlaying) return
+        paint.color = Color.rgb(255,0,0)
+        canvas.drawRect(0f,0f, game.width, game.height, paint)
+        paint.color = Color.rgb(80,80,80)
+        canvas.drawOval(100f,500f, game.width-100f, game.height-500f, paint)
         paint.color = Color.RED
         paint.textSize = 100f
-        canvas.drawText("GAME OVER", 30f, game.height / 2, paint)
+        canvas.drawText("GAME OVER", game.width / 2 - 280f, game.height / 2 - 50, paint)
+        paint.textSize = 75f
+        canvas.drawText("YOU DIED", game.width / 2 - 140f, game.height / 2 + 100f, paint)
     }
 }
