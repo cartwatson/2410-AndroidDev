@@ -4,31 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jcarterw.usucsapp3.databinding.FragmentResearchBinding
 
+
 class ResearchFragment : Fragment() {
-
     private var _binding: FragmentResearchBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val researchViewModel =
-            ViewModelProvider(this).get(ResearchViewModel::class.java)
-
         _binding = FragmentResearchBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        val view: View = inflater.inflate(com.jcarterw.usucsapp3.R.layout.fragment_research, container, false)
+        val rvResearch = view.findViewById<View>(com.jcarterw.usucsapp3.R.id.rvResearch) as RecyclerView
+        val researchList = ResearchTopic.createResearchList()
+        rvResearch.setHasFixedSize(true)
+        rvResearch.layoutManager = LinearLayoutManager(view.context)
+        rvResearch.adapter = ResearchAdapter(researchList)
+
+        return view
     }
 
     override fun onDestroyView() {
