@@ -1,4 +1,4 @@
-package com.jcarterw.finalproject.ui.todo
+package com.jcarterw.finalproject.ui.done
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jcarterw.finalproject.R
 import com.jcarterw.finalproject.ui.Ticket
 
-class TodoAdapter(private val mTicket: List<Ticket>) : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
+class DoneAdapter(private val mTicket: List<Ticket>) : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById<TextView>(R.id.ticket_title)
