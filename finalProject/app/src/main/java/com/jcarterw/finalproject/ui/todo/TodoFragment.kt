@@ -58,16 +58,14 @@ class TodoFragment : Fragment() {
             Ticket.deleteTicket(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString())
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvTodo)
+            refreshPage(rvTodo, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         viewTicketSaveButton.setOnClickListener(View.OnClickListener { // change status
             Ticket.changeStatus(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString(), "IN PROGRESS")
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvTodo)
+            refreshPage(rvTodo, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         // recycler view ---------------------------------------------------------------------------
@@ -121,10 +119,9 @@ class TodoFragment : Fragment() {
                 newTicketPopupTicketDesc.text = null
                 createDialog.dismiss()
                 // TODO: refresh page
-                refreshPage(rvTodo)
+                refreshPage(rvTodo, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
             }
         })
-        adapter.notifyDataSetChanged()
 
         // create ticket button --------------------------------------------------------------------
         val createTicket = view.findViewById<View>(R.id.create_ticket)
@@ -135,10 +132,24 @@ class TodoFragment : Fragment() {
         return view
     }
 
-    private fun refreshPage(rvTodo: RecyclerView) {
-        // TODO: IMPLEMENT THIS CORRECTLY
-        rvTodo.layoutManager?.removeAllViews()
-        rvTodo.adapter?.notifyDataSetChanged()
+    private fun refreshPage(rvTodo: RecyclerView, viewTicketTitle: TextView, viewTicketDesc: TextView, viewTicketStatus: TextView, viewDialog: AlertDialog) {
+        val todoList = ArrayList<Ticket>()
+        readTickets()
+        // add ticket if it has to do status
+        for (ticket in Ticket.getTickets()) {
+            if (ticket.status == "TODO") {
+                todoList.add(ticket)
+            }
+        }
+        val adapter = TodoAdapter(todoList) {
+            viewTicketTitle.text = it.title
+            viewTicketDesc.text = it.desc
+            viewTicketStatus.text = it.status
+
+            viewDialog.show()
+        }
+        rvTodo.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     private fun saveTickets() {

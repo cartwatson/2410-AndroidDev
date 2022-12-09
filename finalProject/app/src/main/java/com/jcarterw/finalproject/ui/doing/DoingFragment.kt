@@ -25,12 +25,12 @@ class DoingFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_doing, container, false)
 
         // create list of valid tickets ------------------------------------------------------------
-        val todoList = ArrayList<Ticket>()
+        val doingList = ArrayList<Ticket>()
         readTickets()
         // add ticket if it has to do status
         for (ticket in Ticket.getTickets()) {
             if (ticket.status == "IN PROGRESS") {
-                todoList.add(ticket)
+                doingList.add(ticket)
             }
         }
 
@@ -59,22 +59,20 @@ class DoingFragment : Fragment() {
             Ticket.deleteTicket(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString())
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvDoing)
+            refreshPage(rvDoing, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         viewTicketSaveButton.setOnClickListener(View.OnClickListener { // change status
             Ticket.changeStatus(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString(), "DONE")
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvDoing)
+            refreshPage(rvDoing, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         // recycler view ---------------------------------------------------------------------------
         rvDoing.setHasFixedSize(false)
         rvDoing.layoutManager = LinearLayoutManager(view.context)
-        val adapter = TodoAdapter(todoList) {
+        val adapter = TodoAdapter(doingList) {
             viewTicketTitle.text = it.title
             viewTicketDesc.text = it.desc
             viewTicketStatus.text = it.status
@@ -121,8 +119,7 @@ class DoingFragment : Fragment() {
                 newTicketPopupTicketTitle.text = null
                 newTicketPopupTicketDesc.text = null
                 createDialog.dismiss()
-                // TODO: refresh page
-                refreshPage(rvDoing)
+                refreshPage(rvDoing, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
             }
         })
 
@@ -135,10 +132,24 @@ class DoingFragment : Fragment() {
         return view
     }
 
-    private fun refreshPage(rvTodo: RecyclerView) {
-        // TODO: IMPLEMENT THIS CORRECTLY
-        rvTodo.layoutManager?.removeAllViews()
-        rvTodo.adapter?.notifyDataSetChanged()
+    private fun refreshPage(rvDoing: RecyclerView, viewTicketTitle: TextView, viewTicketDesc: TextView, viewTicketStatus: TextView, viewDialog: AlertDialog) {
+        val doingList = ArrayList<Ticket>()
+        readTickets()
+        // add ticket if it has to do status
+        for (ticket in Ticket.getTickets()) {
+            if (ticket.status == "IN PROGRESS") {
+                doingList.add(ticket)
+            }
+        }
+        val adapter = DoingAdapter(doingList) {
+            viewTicketTitle.text = it.title
+            viewTicketDesc.text = it.desc
+            viewTicketStatus.text = it.status
+
+            viewDialog.show()
+        }
+        rvDoing.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     private fun saveTickets() {

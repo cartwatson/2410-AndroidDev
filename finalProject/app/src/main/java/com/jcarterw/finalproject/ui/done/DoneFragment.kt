@@ -25,12 +25,12 @@ class DoneFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_done, container, false)
 
         // create list of valid tickets ------------------------------------------------------------
-        val todoList = ArrayList<Ticket>()
+        val doneList = ArrayList<Ticket>()
         readTickets()
         // add ticket if it has to do status
         for (ticket in Ticket.getTickets()) {
             if (ticket.status == "DONE") {
-                todoList.add(ticket)
+                doneList.add(ticket)
             }
         }
 
@@ -59,22 +59,20 @@ class DoneFragment : Fragment() {
             Ticket.deleteTicket(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString())
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvDone)
+            refreshPage(rvDone, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         viewTicketSaveButton.setOnClickListener(View.OnClickListener { // change status
             Ticket.deleteTicket(viewTicketTitle.text.toString(), viewTicketDesc.text.toString(), viewTicketStatus.text.toString())
             saveTickets()
             viewDialog.dismiss()
-            // TODO: refresh page
-            refreshPage(rvDone)
+            refreshPage(rvDone, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
         })
 
         // recycler view ---------------------------------------------------------------------------
         rvDone.setHasFixedSize(false)
         rvDone.layoutManager = LinearLayoutManager(view.context)
-        val adapter = TodoAdapter(todoList) {
+        val adapter = TodoAdapter(doneList) {
             viewTicketTitle.text = it.title
             viewTicketDesc.text = it.desc
             viewTicketStatus.text = it.status
@@ -122,7 +120,7 @@ class DoneFragment : Fragment() {
                 newTicketPopupTicketDesc.text = null
                 createDialog.dismiss()
                 // TODO: refresh page
-                refreshPage(rvDone)
+                refreshPage(rvDone, viewTicketTitle, viewTicketDesc, viewTicketStatus, viewDialog)
             }
         })
 
@@ -135,10 +133,24 @@ class DoneFragment : Fragment() {
         return view
     }
 
-    private fun refreshPage(rvTodo: RecyclerView) {
-        // TODO: IMPLEMENT THIS CORRECTLY
-        rvTodo.layoutManager?.removeAllViews()
-        rvTodo.adapter?.notifyDataSetChanged()
+    private fun refreshPage(rvDone: RecyclerView, viewTicketTitle: TextView, viewTicketDesc: TextView, viewTicketStatus: TextView, viewDialog: AlertDialog) {
+        val doneList = ArrayList<Ticket>()
+        readTickets()
+        // add ticket if it has to do status
+        for (ticket in Ticket.getTickets()) {
+            if (ticket.status == "DONE") {
+                doneList.add(ticket)
+            }
+        }
+        val adapter = DoneAdapter(doneList) {
+            viewTicketTitle.text = it.title
+            viewTicketDesc.text = it.desc
+            viewTicketStatus.text = it.status
+
+            viewDialog.show()
+        }
+        rvDone.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     private fun saveTickets() {
