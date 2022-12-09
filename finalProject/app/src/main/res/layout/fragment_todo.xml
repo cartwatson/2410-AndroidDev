@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/todo_fragment"
     tools:context=".ui.todo.TodoFragment">
 
     <!-- Page -->
@@ -20,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
             <TextView
@@ -32,7 +33,15 @@
                 android:textColor="@color/white"
                 android:background="#0B4F6C"
                 android:textSize="24sp"
-                android:padding="6dp"/>
+                android:padding="6dp" />
+            <Button
+                android:id="@+id/create_ticket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#0B4F6C"
+                android:text="Create Ticket" />
+
         </LinearLayout>
         <!-- Rest of Page -->
         <ScrollView
@@ -51,7 +60,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
                 <!-- Padding so item can scroll past nav bar -->
                 <TextView
                     android:layout_width="match_parent"

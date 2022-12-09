@@ -7,20 +7,30 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jcarterw.finalproject.R
 import com.jcarterw.finalproject.ui.Ticket
+import com.jcarterw.finalproject.ui.todo.TodoAdapter
 
-class DoneAdapter(private val mTicket: List<Ticket>) : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
+class DoneAdapter(private val mTicket: List<Ticket>,
+                  private val clickListener: (Ticket)-> Unit) : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, clickAtPosition: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById<TextView>(R.id.ticket_title)
         val descTextView: TextView = itemView.findViewById<TextView>(R.id.ticket_desc)
         val statusTextView: TextView = itemView.findViewById<TextView>(R.id.ticket_status)
+        init {
+            itemView.setOnClickListener {
+                clickAtPosition(adapterPosition)
+            }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoneAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        val facultyView = inflater.inflate(R.layout.item_ticket, parent, false)
-        return ViewHolder(facultyView)
+        val ticketView = inflater.inflate(R.layout.item_ticket, parent, false)
+        val viewHolder = ViewHolder(ticketView) {
+            clickListener(mTicket[it])
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {

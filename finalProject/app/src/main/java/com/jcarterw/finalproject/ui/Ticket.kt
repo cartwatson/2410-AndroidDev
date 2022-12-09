@@ -1,25 +1,49 @@
 package com.jcarterw.finalproject.ui
 
+import android.R.attr.data
+import android.content.Context
+import java.io.IOException
+import java.io.OutputStreamWriter
+
+
 class Ticket(val title: String, val desc: String, val status: String) {
     companion object {
-        // TODO: modify this list when user creates ticket
-        // TODO: get rid of initialization
+        private val tickets = ArrayList<Ticket>()
+
         fun getTickets() : ArrayList<Ticket> {
-            val tickets = ArrayList<Ticket>()
-            // Hard code faculty list
-            tickets.add(Ticket("Implement on device saving", "Save tickets to device", "TODO"))
-            tickets.add(Ticket("Create ticket class","Create ticket class to be used throughout program", "IN PROGRESS"))
-            tickets.add(Ticket("Create XML for statuses", "Create the a pretty layout for the various statuses", "TODO"))
-            tickets.add(Ticket("Create Launch icon", "Create and implement custom launch icon", "TODO"))
-            tickets.add(Ticket("Init proj/gradle", "Create project and gradle, confirm working", "DONE"))
-            tickets.add(Ticket("Add way for user to create tickets", "add functionality", "TODO"))
-            tickets.add(Ticket("Ticket 1", "lorem ipsum", "TODO"))
-            tickets.add(Ticket("Ticket 2", "lorem ipsum", "IN PROGRESS"))
-            tickets.add(Ticket("Ticket 3", "lorem ipsum", "DONE"))
-            tickets.add(Ticket("Ticket 4", "lorem ipsum", "TODO"))
-            tickets.add(Ticket("Ticket 5", "lorem ipsum", "IN PROGRESS"))
-            tickets.add(Ticket("Ticket 6", "lorem ipsum", "DONE"))
             return tickets
+        }
+
+        fun createTicket(title: String, desc: String, status: String) {
+            tickets.add(Ticket(title, desc, status))
+        }
+
+        fun deleteTicket(title: String, desc: String, status: String) {
+            // find ticket to remove
+            var ticketToBeRemoved: Ticket? = null
+            for (ticket in tickets) {
+                if (ticket.title == title && ticket.desc == desc && ticket.status == status) {
+                    ticketToBeRemoved = ticket
+                    break
+                }
+            }
+            // only attempt to remove if a matching ticket is found
+            if (ticketToBeRemoved != null) { tickets.remove(ticketToBeRemoved) }
+        }
+
+        fun changeStatus(title: String, desc: String, prevStatus: String, nextStatus: String) {
+            this.deleteTicket(title, desc, prevStatus)
+            this.createTicket(title, desc, nextStatus)
+        }
+
+        fun wholeToString(): String {
+            var returnString = ""
+            for (ticket in tickets) {
+                returnString += ticket.title + "**********"
+                returnString += ticket.desc + "**********"
+                returnString += ticket.status + "\n"
+            }
+            return returnString
         }
     }
 }
